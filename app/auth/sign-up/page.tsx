@@ -28,9 +28,9 @@ export default async function SignupPage() {
        return { message: error };
     } else if (user) {
       await loginUser(email, password);
-      await redirect('/');
+      return redirect('/');
     }
   }
 
-  return <SignUp />
+  return <SignUp action={action} />
 }

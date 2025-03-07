@@ -1,5 +1,8 @@
 "use client";
+import { logoutUser } from "@/actions/auth";
+import { User } from "@prisma/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearch } from "react-icons/io5";
@@ -17,9 +20,14 @@ function AnnouncementBar() {
   );
 }
 
-export default function Header() {
+type HeaderProps = {
+  user: Omit<User, "passwordHash"> | null;
+};
+
+export default function Header({ user }: HeaderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [prevScrollY, setPrevScrollY] = useState<number>(0);
+  const router = useRouter();
 
   useEffect(() => {
     function handleScroll() {
@@ -41,7 +49,7 @@ export default function Header() {
     };
   }, [prevScrollY]);
   return (
-    <header className="w-full sticky top-0 z-50">
+    <header className="w-full sticky top-0 z-50 text-black">
       <div
         className={`w-full transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-y-0" : "-translate-y-full"
@@ -61,14 +69,39 @@ export default function Header() {
               </nav>
             </div>
 
-            <Link href="#">Link</Link>
+            <Link href="#" className="absolute left-1/2 -translate-x-1/2">
+              <span className="text-xl sm:text-2xl font-bold tracking-tight text-gray-700">
+                TEMU
+              </span>
+            </Link>
 
             <div className="flex flex-1 justify-end items-center gap-2 sm:gap-4">
               <button className="text-gray-700 hover:text-gray-900 hidden sm:block cursor-pointer">
                 <IoSearch size={24} />
               </button>
-              <Link href="/auth/sign-in">Sign In</Link>
-              <Link href="/auth/sign-up">Sign Up</Link>
+              {user ? (
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <span className="text-xs text-gray-700 hidden md:block">
+                    {user.email}
+                  </span>
+                  <Link
+                    href="#"
+                    className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await logoutUser();
+                      router.refresh();
+                    }}
+                  >
+                    Sign Out
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <Link href="/auth/sign-in" className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900">Sign In</Link>
+                  <Link href="/auth/sign-up" className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900">Sign Up</Link>
+                </>
+              )}
               <button className="text-gray-700 hover:text-gray-900 cursor-pointer relative">
                 <IoCartOutline size={24} />
                 <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] sm:text-xs rounded-full w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center">

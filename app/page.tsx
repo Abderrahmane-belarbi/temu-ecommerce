@@ -1,5 +1,12 @@
-export default function Home() {
+import { getCurrentSession } from "@/actions/auth";
+
+export default async function Home() {
+  const { user } = await getCurrentSession();
   return (
-    <div className="h-[200vh]">Home</div>
+    <div className="h-[200vh]">
+      {user?.id} <br/>
+      {user?.email} <br/>
+      
+    </div>
   );
 }
