@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/layout/Header";
 import { getCurrentSession } from "@/actions/auth";
 import { SanityLive } from "@/sanity/lib/live";
+import HeaderCategorySelector from "./components/layout/HeaderCategorySelector";
 
 export const metadata: Metadata = {
   title: "Temo Ecommerce",
@@ -21,7 +22,7 @@ export default async function RootLayout({
       <body
         className={`${inter.className} antialiased bg-white text-black`}
       >
-        <Header user={user}/>
+        <Header user={user} headerCategorySelector={<HeaderCategorySelector />}/>
         {children}
         <SanityLive />
       </body>

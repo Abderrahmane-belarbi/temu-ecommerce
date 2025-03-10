@@ -3,7 +3,7 @@ import { logoutUser } from "@/actions/auth";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearch } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
@@ -22,9 +22,10 @@ function AnnouncementBar() {
 
 type HeaderProps = {
   user: Omit<User, "passwordHash"> | null;
+  headerCategorySelector: React.ReactNode;
 };
 
-export default function Header({ user }: HeaderProps) {
+export default function Header({ user, headerCategorySelector }: HeaderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [prevScrollY, setPrevScrollY] = useState<number>(0);
   const router = useRouter();
@@ -63,8 +64,9 @@ export default function Header({ user }: HeaderProps) {
                 <GiHamburgerMenu size={26} />
               </button>
               <nav className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium">
-                <Link href="#">Shop</Link>
-                <Link href="#">New Arrival</Link>
+                {/* <Link href="#">Shop</Link> */}
+                {/* <Link href="#">New Arrival</Link> */}
+                {headerCategorySelector}
                 <Link href="#">Sale</Link>
               </nav>
             </div>
