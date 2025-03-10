@@ -23,13 +23,13 @@ export default function SignUp({ action }: SignUpProps) {
       className="max-w-md mx-auto my-16 p-8 bg-white rounded-lg shadow-md"
     >
       <h1 className="text-2xl font-bold text-center mb-2">
-        Join the Deal Revolution!
+        Join Temu Revolution!
       </h1>
       <p className="text-center text-sm text-rose-600 font-semibold mb-2">
-        Limited Time Offer
+        MEMBER EXCLUSIVE!
       </p>
       <p className="text-center text-sm text-gray-600 mb-2">
-        Sign up now and get 90% OFF your first order!
+        Sign in to access your exclusive member deals.
       </p>
 
       <div className="space-y-6">
@@ -71,10 +71,10 @@ export default function SignUp({ action }: SignUpProps) {
         {/* Copywriting */}
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-2">
-            Only 127 welcome bonus packages remaining!
+            Members save an extra discounte on some orders!
           </p>
           <p className="text-xs text-gray-500 mb-4">
-            Offer expiers in: 13:45:21
+            plus get free shipping on orders over $15.00
           </p>
         </div>
         {/* Submit */}
@@ -88,12 +88,15 @@ export default function SignUp({ action }: SignUpProps) {
           {isPending ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin"/>
-              CREATING ACCOUNT...
+              SIGNING IN...
             </>
           ) : (
-            'CREATE ACCOUNT'
+            'SIGN IN'
           )}
         </button>
+        {state?.message && state.message.length > 0 && (
+          <p className="text-center text-sm text-red-600">{state.message}</p>
+        )}
       </div>
     </Form>
   );
