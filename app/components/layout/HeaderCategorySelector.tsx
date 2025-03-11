@@ -1,4 +1,5 @@
 import { getAllCategories } from "@/sanity/lib/client";
+import Link from "next/link";
 
 export default async function HeaderCategorySelector() {
   const categories = await getAllCategories();
@@ -21,10 +22,24 @@ export default async function HeaderCategorySelector() {
           <path d="m6 9 6 6 6-6" />
         </svg>
       </button>
-      <div className="absolute top-full left-0 pt-2 opacity-0 invisible peer-hover:opacity-100
-        peer-hover:visible hover:opacity-100 hover:visible transition-all">
-          <div className="w-64 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden"></div>
+      <div
+        className="absolute top-full left-0 pt-2 opacity-0 invisible peer-hover:opacity-100
+        peer-hover:visible hover:opacity-100 hover:visible transition-all"
+      >
+        <div className="w-64 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden">
+          <div className="py-2">
+            {categories.map((category) => (
+              <Link
+                className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-75" 
+                key={category._id} 
+                href={`/category/${category.slug?.current}`}
+                prefetch>
+                {category.title}
+              </Link>
+            ))}
+          </div>
         </div>
+      </div>
     </div>
   );
 }
