@@ -83,8 +83,6 @@ const CartItem = ({ item }: { item: CartItemType }) => {
 const Cart = () => {
   const {
     cartId,
-    removeItem,
-    updateQuantity,
     items,
     close,
     isOpen,

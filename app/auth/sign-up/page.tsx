@@ -1,7 +1,7 @@
 import { getCurrentSession, loginUser, registerUser } from "@/actions/auth";
 import SignUp from "@/app/components/auth/SignUp";
 import { redirect } from "next/navigation";
-import zod, { object } from 'zod';
+import zod from 'zod';
 
 const SignUpSchema = zod.object({
   email: zod.string().email(),
