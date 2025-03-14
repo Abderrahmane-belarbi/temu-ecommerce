@@ -5,8 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoSearch } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
+import HeaderSearchBar from "./HeaderSearchBar";
+import { useCartStore } from "@/stores/cart-store";
+import { useShallow } from "zustand/shallow";
 
 function AnnouncementBar() {
   return (
@@ -29,6 +31,12 @@ export default function Header({ user, headerCategorySelector }: HeaderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [prevScrollY, setPrevScrollY] = useState<number>(0);
   const router = useRouter();
+  const { open, getTotalItems } = useCartStore(
+    useShallow((state) => ({
+      open: state.open,
+      getTotalItems: state.getTotalItems
+    }))
+  );
 
   useEffect(() => {
     function handleScroll() {
@@ -78,9 +86,7 @@ export default function Header({ user, headerCategorySelector }: HeaderProps) {
             </Link>
 
             <div className="flex flex-1 justify-end items-center gap-2 sm:gap-4">
-              <button className="text-gray-700 hover:text-gray-900 hidden sm:block cursor-pointer">
-                <IoSearch size={24} />
-              </button>
+              <HeaderSearchBar />
               {user ? (
                 <div className="flex items-center gap-2 sm:gap-4">
                   <span className="text-xs text-gray-700 hidden md:block">
@@ -100,14 +106,27 @@ export default function Header({ user, headerCategorySelector }: HeaderProps) {
                 </div>
               ) : (
                 <>
-                  <Link href="/auth/sign-in" className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900">Sign In</Link>
-                  <Link href="/auth/sign-up" className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900">Sign Up</Link>
+                  <Link
+                    href="/auth/sign-in"
+                    className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/sign-up"
+                    className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    Sign Up
+                  </Link>
                 </>
               )}
-              <button className="text-gray-700 hover:text-gray-900 cursor-pointer relative">
+              <button
+                onClick={() => open()}
+                className="text-gray-700 hover:text-gray-900 cursor-pointer relative"
+              >
                 <IoCartOutline size={24} />
                 <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] sm:text-xs rounded-full w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center">
-                  0
+                  {getTotalItems()}
                 </span>
               </button>
             </div>

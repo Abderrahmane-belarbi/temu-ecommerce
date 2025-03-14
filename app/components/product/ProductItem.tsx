@@ -1,6 +1,7 @@
 import { Product } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
+import Link from "next/link";
 
 type ProductItemProp = {
   product: Product;
@@ -47,9 +48,11 @@ export default function ProductItem({ product }: ProductItemProp) {
               )}
             + sold in last 24h
           </div>
-          <button className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white py-2 rounded-full text-sm font-bold hover:brightness-110 transition-all cursor-pointer">
+          <Link className="w-full text-center bg-gradient-to-r from-red-500 to-orange-500 text-white py-2 rounded-full text-sm font-bold hover:brightness-110 transition-all cursor-pointer"
+            href={`/product/${product._id}`}
+          >
             GRAB IT NOW!
-          </button>
+          </Link>
           <div className="text-xs text-red-500 text-center mt-1 animate-pulse">Limited time offer!</div>
         </div>
       </div>

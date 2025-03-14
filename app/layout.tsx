@@ -5,6 +5,7 @@ import Header from "./components/layout/Header";
 import { getCurrentSession } from "@/actions/auth";
 import { SanityLive } from "@/sanity/lib/live";
 import HeaderCategorySelector from "./components/layout/HeaderCategorySelector";
+import Cart from "./components/cart/Cart";
 
 export const metadata: Metadata = {
   title: "Temo Ecommerce",
@@ -24,6 +25,7 @@ export default async function RootLayout({
       >
         <Header user={user} headerCategorySelector={<HeaderCategorySelector />}/>
         {children}
+        <Cart />
         <SanityLive />
       </body>
     </html>
